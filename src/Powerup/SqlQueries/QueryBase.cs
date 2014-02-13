@@ -20,37 +20,32 @@ namespace Powerup.SqlQueries
                 where c.id = @1
                 order by c.colid";
 
-        protected QueryBase()
-        {
+        protected QueryBase() {
             SqlObjects = new List<SqlObject>();
         }
 
         public abstract string NameSql { get; }
-        public string TextSql { get { return textQuery; } }
+        public virtual string TextSql { get { return textQuery; } }
         public abstract string Folder { get; }
         public string Database { get; private set; }
         public IList<SqlObject> SqlObjects { get; private set; }
         public abstract SqlType SqlType { get; }
-        
-        public virtual ITemplate TemplateToUse(SqlObject sqlObject)
-        {
+
+        public virtual ITemplate TemplateToUse(SqlObject sqlObject) {
             return new CreateAlterTemplate(sqlObject);
         }
 
-        public void AddSqlObject(SqlObject sqlObject)
-        {
+        public void AddSqlObject(SqlObject sqlObject) {
             SqlObjects.Add(sqlObject);
         }
 
-        public SqlObject MakeSqlObject(string dataBase, string schema, string name, int objectId)
-        {
-            return new SqlObject(this, dataBase)
-                       {
-                           Name = name,
-                           Schema = schema,
-                           ObjectId = objectId,
-                           SqlType = SqlType
-                       };
+        public SqlObject MakeSqlObject(string dataBase, string schema, string name, int objectId) {
+            return new SqlObject(this, dataBase) {
+                Name = name,
+                Schema = schema,
+                ObjectId = objectId,
+                SqlType = SqlType
+            };
         }
     }
 }
